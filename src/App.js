@@ -29,6 +29,15 @@ function App() {
       });
   };
 
+const deleteTask = (id) => {
+  fetch(`http://localhost:3000/tasks/${id}`, {
+    method: "DELETE"
+  })
+    .then(() => {
+      setTasks(tasks.filter(task => task.id !== id));
+    });
+};
+
   return (
     <div style={{ padding: "20px" }}>
       <h1>Task Manager</h1>
@@ -47,6 +56,7 @@ function App() {
         {tasks.map(task => (
           <li key={task.id}>
             {task.title} - {task.completed ? "✅" : "❌"}
+            <button onClick={() => deleteTask(task.id)}>Delete</button>
           </li>
         ))}
       </ul>
