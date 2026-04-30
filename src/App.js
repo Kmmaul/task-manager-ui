@@ -13,7 +13,9 @@ function App() {
 
   // Create task
   const addTask = () => {
-    if (!newTitle.trim()) return;
+    if (!newTitle.trim()) {
+      alert("Task title required");
+      return;}
 
     fetch("http://localhost:3000/tasks", {
       method: "POST",
@@ -50,7 +52,7 @@ const toggleTask = (id) => {
     });
 };
   return (
-    <div style={{ padding: "20px" }}>
+    <div style={{ padding: "20px", fontFamily: "Arial" }}>
       <h1>Task Manager</h1>
 
       {/* Form */}
@@ -59,17 +61,18 @@ const toggleTask = (id) => {
         placeholder="Enter task"
         value={newTitle}
         onChange={(e) => setNewTitle(e.target.value)}
+        style={{marginRight: "10px"}}
       />
       <button onClick={addTask}>Add Task</button>
 
       {/* List */}
       <ul>
         {tasks.map(task => (
-          <li key={task.id}>
+          <li key={task.id} style={{ marginTop: "10px" }}>
             {task.title} - {task.completed ? "✅" : "❌"}
 
-            <button onClick={() => toggleTask(task.id)}>Toggle</button>
-            <button onClick={() => deleteTask(task.id)}>Delete</button>
+            <button onClick={() => toggleTask(task.id)} style={{ marginLeft: "10px" }}>Toggle</button>
+            <button onClick={() => deleteTask(task.id)} style={{ marginLeft: "5px" }}>Delete</button>
           </li>
         ))}
       </ul>
