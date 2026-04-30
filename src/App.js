@@ -38,6 +38,17 @@ const deleteTask = (id) => {
     });
 };
 
+const toggleTask = (id) => {
+    fetch(`http://localhost:3000/tasks/${id}/toggle`, {
+    method: "PATCH"
+  })
+    .then(res => res.json())
+    .then(updatedTask => {
+      setTasks(tasks.map(task =>
+        task.id === id ? updatedTask : task
+      ));
+    });
+};
   return (
     <div style={{ padding: "20px" }}>
       <h1>Task Manager</h1>
@@ -56,6 +67,8 @@ const deleteTask = (id) => {
         {tasks.map(task => (
           <li key={task.id}>
             {task.title} - {task.completed ? "✅" : "❌"}
+
+            <button onClick={() => toggleTask(task.id)}>Toggle</button>
             <button onClick={() => deleteTask(task.id)}>Delete</button>
           </li>
         ))}
