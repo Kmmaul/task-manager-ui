@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+const API = "https://task-manager-k6h9.onrender.com";
+
 function App() {
   const [tasks, setTasks] = useState([]);
   const [newTitle, setNewTitle] = useState("");
@@ -8,7 +10,7 @@ function App() {
 
   // Load tasks
   useEffect(() => {
-    fetch("http://localhost:3000/tasks")
+    fetch(`${API}/tasks`)
       .then(res => res.json())
       .then(data => setTasks(data));
   }, []);
@@ -19,7 +21,7 @@ function App() {
       alert("Task title required");
       return;}
 
-    fetch("http://localhost:3000/tasks", {
+    fetch(`${API}/tasks`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -34,7 +36,7 @@ function App() {
   };
 //delete task
 const deleteTask = (id) => {
-  fetch(`http://localhost:3000/tasks/${id}`, {
+  fetch(`${API}/tasks/${id}`, {
     method: "DELETE"
   })
     .then(() => {
@@ -44,7 +46,7 @@ const deleteTask = (id) => {
 
 //toggle task
 const toggleTask = (id) => {
-    fetch(`http://localhost:3000/tasks/${id}/toggle`, {
+    fetch(`${API}/tasks/${id}/toggle`, {
     method: "PATCH"
   })
     .then(res => res.json())
@@ -73,7 +75,7 @@ const saveEdit = (id) => {
     return;
   }
 
-  fetch(`http://localhost:3000/tasks/${id}`, {
+  fetch(`${API}/tasks/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json"
