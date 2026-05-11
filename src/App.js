@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const API = "https://task-manager-k6h9.onrender.com";
+const API = process.env.REACT_APP_API_URL;
 
 function App() {
   const [loading, setLoading] = useState(true);
