@@ -50,6 +50,10 @@ useEffect(() => {
   };
 //delete task
 const deleteTask = (id) => {
+    if(!window.confirm("Delete this task?"))
+    {
+      return;
+    }
   fetch(`${API}/tasks/${id}`, {
     method: "DELETE"
   })
