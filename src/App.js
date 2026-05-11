@@ -118,7 +118,13 @@ const saveEdit = (id) => {
         placeholder="Enter task"
         value={newTitle}
         onChange={(e) => setNewTitle(e.target.value)}
-        style={{marginRight: "10px"}}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            addTask();
+          }
+        }}
+        style={{ marginRight: "10px" }}
       />
       <button onClick={addTask}>Add Task</button>
 
@@ -128,11 +134,21 @@ const saveEdit = (id) => {
         <li key={task.id} style={{ marginTop: "10px" }}>
           {editingId === task.id ? (
             <>
-              <input
-                type="text"
-                value={editingTitle}
-                onChange={(e) => setEditingTitle(e.target.value)}
-              />
+                <input
+                  type="text"
+                  value={editingTitle}
+                  onChange={(e) => setEditingTitle(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      saveEdit(task.id);
+                    }
+
+                    if (e.key === "Escape") {
+                      cancelEditing();
+                    }
+                  }}
+                />
 
               <button onClick={() => saveEdit(task.id)} style={{ marginLeft: "10px" }}>
                 Save
