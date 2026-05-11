@@ -3,17 +3,31 @@ import { useEffect, useState } from "react";
 const API = "https://task-manager-k6h9.onrender.com";
 
 function App() {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [tasks, setTasks] = useState([]);
   const [newTitle, setNewTitle] = useState("");
   const [editingId, setEditingId] = useState(null);
   const [editingTitle, setEditingTitle] = useState("");
 
   // Load tasks
-  useEffect(() => {
-    fetch(`${API}/tasks`)
-      .then(res => res.json())
-      .then(data => setTasks(data));
-  }, []);
+useEffect(() => {
+  fetch(`${API}/tasks`)
+    .then(res => {
+      if (!res.ok) {
+        throw new Error("Failed to load tasks");
+      }
+      return res.json();
+    })
+    .then(data => {
+      setTasks(data);
+      setLoading(false);
+    })
+    .catch(err => {
+      setError(err.message);
+      setLoading(false);
+    });
+}, []);
 
   // Create task
   const addTask = () => {
@@ -96,7 +110,8 @@ const saveEdit = (id) => {
   return (
     <div style={{ padding: "20px", fontFamily: "Arial" }}>
       <h1>Task Manager</h1>
-
+        {loading && <p>Loading tasks...</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
       {/* Form */}
       <input
         type="text"
